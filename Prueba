@@ -1,18 +1,78 @@
 package screens 
 {
+	import flash.events.TimerEvent;
 	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.events.KeyboardEvent;
+	import flash.utils.Timer;
 	
 	public class Prueba extends Sprite 
 	{
 		public var personaje:Quad;
+		public var background:Quad;
+		public var disparo1:Quad;
+		public var disparado1:Boolean;
+		public var disparo2:Quad;
+		public var disparado2:Boolean;
+		public var disparo3:Quad;
+		public var disparado3:Boolean;
+		public var listaDisparos:Array;
+		public var tiempoEspera:Timer;
+		private var teclaDerecha:Boolean;
+		private var teclaIzquierda:Boolean;
+		private var disparando:Boolean;
+		private var lanzado:Boolean;
+		public var contador:int;
 		
-		public function Prueba() 
+		
+		public function Prueba()
 		{
 			super();
 			
 			this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
+			this.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			
+			tiempoEspera = new Timer(10, 300);
+			tiempoEspera.addEventListener(TimerEvent.TIMER, temporizador);
+			tiempoEspera.stop();
+		}
+		
+		public function initialize():void
+		{
+			background = new Quad(800, 600, 0xffcccc);
+			addChild(background);
+			
+			personaje = new Quad(50, 50, 0xffffff);
+			addChild(personaje);
+			personaje.x = 200;
+			personaje.y = 400;
+			
+			disparo1 = new Quad(10, 10, 0xaaaaaa);
+			addChild(disparo1);
+			disparo1.visible = false;
+			disparo2 = new Quad(10, 10, 0xaaaaaa);
+			addChild(disparo2);
+			disparo2.visible = false;
+			disparo3 = new Quad(10, 10, 0xaaaaaa);
+			addChild(disparo3);
+			disparo3.visible = false;
+			
+			listaDisparos.push(disparo1, disparo2, disparo3);
+			
+			lanzado = false;
+			disparando = false;
+		}
+		
+		public function onEnterFrame(e:Event):void 
+		{
+			if (teclaDerecha)
+				background.x -= 3;
+				
+			else if (teclaIzquierda)
+				background.x += 3;
 		}
 		
 		public function onAddedToStage(e:Event):void
@@ -20,10 +80,84 @@ package screens
 			
 		}
 		
-		public function initialize():void
+		public function onKeyDown(e:KeyboardEvent):void
 		{
-			personaje = new Quad(50, 50, 0xffffff);
-			addChild(personaje);
+			switch(e.keyCode)
+			{
+				case 16: //shift
+					disparoRealizado();
+					
+					break;
+				
+				case 39:
+					teclaDerecha = true;
+					
+					break;
+					
+				case 37:
+					teclaIzquierda = true;
+					
+					break;
+			}
+		}
+		
+		public function onKeyUp(e:KeyboardEvent):void
+		{
+			switch(e.keyCode)
+			{	
+				case 39:
+					teclaDerecha = false;
+					
+					break;
+					
+				case 37:
+					teclaIzquierda = false;
+					
+					break;
+			}
+		}
+		
+		public function disparoRealizado():void
+		{
+			contador = 0;
+			
+			if (!disparado1)
+			{
+				disparo1.x = personaje.x + 50;
+				disparo1.y = personaje.y;
+				disparo1.visible = true;
+			}
+			
+			else if (!disparado2)
+			{
+				disparo2.x = personaje.x + 50;
+				disparo2.y = personaje.y;
+				disparo2.visible = true;
+			}
+			
+			else if (!disparado3)
+			{
+				disparo3.x = personaje.x + 50;
+				disparo3.y = personaje.y;
+				disparo3.visible = true;
+			}		
+			
+			tiempoEspera.reset();
+			tiempoEspera.start();
+		}
+		
+		public function temporizador(e:TimerEvent):void
+		{
+			if (!disparado1)
+			{
+				disparo1.x += 5;
+				contador++;
+			}
+			
+			if (contador == 300)
+			{
+				tiempoEspera.stop();
+			}
 		}
 	}
 }
