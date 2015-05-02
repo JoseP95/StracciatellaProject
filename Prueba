@@ -1,0 +1,18 @@
+package screens 
+{
+	import starling.display.Sprite;
+	
+	public class Prueba extends Sprite 
+	{
+		public function Prueba() 
+		{
+			super();
+			
+		}
+		
+		public function initialize():void
+		{
+			
+		}
+	}
+}
