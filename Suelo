@@ -1,0 +1,31 @@
+package 
+{
+	import starling.display.Quad
+	import starling.display.Sprite;
+	import starling.events.Event;
+	import starling.utils.Color
+	
+	public class Suelo extends Sprite 
+	{
+		public var suelo:Quad;
+		
+		public function Suelo() 
+		{
+			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);			
+		}
+		
+		private function onAddedToStage(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			createSueloArt();
+		}
+		
+		private function createSueloArt():void 
+		{
+			suelo = new Quad(800, 10, Color.RED);
+			this.x = 0;
+			this.y = 590;
+			this.addChild(suelo);
+		}
+	}
+}
