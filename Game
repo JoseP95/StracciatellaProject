@@ -16,9 +16,9 @@ package
 		
 		private function onAddedToStage(event:Event):void
 		{
-			screenWelcome = new Prueba();
+			prueba = new Prueba();
 			this.addChild(prueba);
-			screenWelcome.initialize();
+			prueba.initialize();
 		}
 	}
 }
