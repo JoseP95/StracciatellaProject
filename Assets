@@ -6,8 +6,8 @@ package
 	
 	public class Assets
 	{
-		[Embed(source = "../media/graphics/")]
-		public static const BgWelcome:Class;
+		/*[Embed(source = "../media/graphics/")]
+		public static const BgWelcome:Class;*/
 		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
