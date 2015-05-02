@@ -1,18 +1,29 @@
 package screens 
 {
+	import starling.display.Quad;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	
 	public class Prueba extends Sprite 
 	{
+		public var personaje:Quad;
+		
 		public function Prueba() 
 		{
 			super();
+			
+			this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+		
+		public function onAddedToStage(e:Event):void
+		{
 			
 		}
 		
 		public function initialize():void
 		{
-			
+			personaje = new Quad(50, 50, 0xffffff);
+			addChild(personaje);
 		}
 	}
 }
